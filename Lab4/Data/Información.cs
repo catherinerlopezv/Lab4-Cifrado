@@ -8,7 +8,7 @@ namespace Lab4.Data
 {
     public class Información : InfoArch<int>
     {
-        public IFormFile files { get; set; }
+        public IFormFile file { get; set; }
         public int TamañoCarriles { get; set; }
         public string NuevoNombre { get; set; }
         public string Palabra { get; set; }
