@@ -1,0 +1,14 @@
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.exe
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.deps.json
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.runtimeconfig.json
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.runtimeconfig.dev.json
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.dll
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Cifrado.pdb
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.csproj.AssemblyReference.cache
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.AssemblyInfoInputs.cache
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.AssemblyInfo.cs
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.csproj.CoreCompileInputs.cache
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.dll
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.pdb
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.genruntimeconfig.cache
