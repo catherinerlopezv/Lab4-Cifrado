@@ -5,7 +5,9 @@
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Microsoft.AspNetCore.Http.Features >= 5.0.12"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Cathy\\.nuget\\packages\\": {},
@@ -14,11 +16,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "e:\\Cathy\\Documents\\lab4 repo gti\\Cifrado\\Cifrado.csproj",
+      "projectUniqueName": "e:\\Cathy\\Documents\\lab 4 reps dddd\\Cifrado\\Cifrado.csproj",
       "projectName": "Cifrado",
-      "projectPath": "e:\\Cathy\\Documents\\lab4 repo gti\\Cifrado\\Cifrado.csproj",
+      "projectPath": "e:\\Cathy\\Documents\\lab 4 reps dddd\\Cifrado\\Cifrado.csproj",
       "packagesPath": "C:\\Users\\Cathy\\.nuget\\packages\\",
-      "outputPath": "e:\\Cathy\\Documents\\lab4 repo gti\\Cifrado\\obj\\",
+      "outputPath": "e:\\Cathy\\Documents\\lab 4 reps dddd\\Cifrado\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,6 +51,12 @@
     "frameworks": {
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": {
+            "target": "Package",
+            "version": "[5.0.12, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -67,5 +75,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.AspNetCore.Http.Features. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.AspNetCore.Http.Features",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

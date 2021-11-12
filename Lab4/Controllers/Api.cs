@@ -27,13 +27,37 @@ namespace Lab4.Controllers
 
         }
 
-        [HttpPost("cipher/ZigZag")]
+        [HttpPost("cipher")]
         public IActionResult postCipherZZ([FromForm]Información objFile)
         {
 
             try
             {
-                if (objFile.file.Length > 0)
+                if(objFile.cipher=="zigzag")
+                {
+                    if (objFile.file.Length > 0)
+                    {
+                        if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+                        {
+                            Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                        }
+                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\" + objFile.file.FileName))
+                        {
+                            objFile.file.CopyTo(fileStream);
+                            fileStream.Flush();
+                            fileStream.Close();
+                            string s = @_environment.WebRootPath;
+                            //Implementacion imp = new Implementacion(fileStream.Name, s);
+                            ZigZaOpg.Cifrado(objFile.file,fileStream.Name, s, objFile.key);
+                            MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
+                               "\\Upload\\" + Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".zigzag"));
+                            return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".zigzag");
+                        }
+
+
+                    }
+                }
+                else if( objFile.cipher=="cesar")
                 {
                     if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
                     {
@@ -45,103 +69,19 @@ namespace Lab4.Controllers
                         fileStream.Flush();
                         fileStream.Close();
                         string s = @_environment.WebRootPath;
-                        //Implementacion imp = new Implementacion(fileStream.Name, s);
-                        ZigZaOpg.Cifrado(fileStream.Name, s, objFile.TamañoCarriles);
-                        MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
-                           "\\Upload\\" + Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".ZigZag"));
-                        return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".ZigZag");
-                    }
 
-
-                }
-                else
-                {
-                    return StatusCode(500);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { name = "Internal Server Error", message = ex.Message });
-            }
-
-
-
-        }
-
-        [HttpPost("decipher/ZigZag")]
-        public IActionResult postDecipherZZ([FromForm]Información objFile)
-        {
-
-            try
-            {
-                if (objFile.file.Length > 0)
-                {
-                    if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
-                    {
-                        Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\" + objFile.file.FileName))
-                    {
-                        objFile.file.CopyTo(fileStream);
-                        fileStream.Flush();
-                        fileStream.Close();
-                        string s = @_environment.WebRootPath;
-                       
-                        ZigZaOpg.Descifrado(fileStream.Name, s, objFile.TamañoCarriles);
-
-                        MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
-                           "\\Upload\\" + Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".txt"));
-                        return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".txt");
-
-                    }
-
-
-                }
-                else
-                {
-                    return StatusCode(500);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { name = "Internal Server Error", message = ex.Message });
-            }
-        }
-
-        [HttpPost("cipher/Cesar")]
-        public IActionResult postCipherCesar([FromForm]Información objFile)
-        {
-            try
-            {
-                if (objFile.file.Length > 0)
-                {
-                    if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
-                    {
-                        Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\" + objFile.file.FileName))
-                    {
-                        objFile.file.CopyTo(fileStream);
-                        fileStream.Flush();
-                        fileStream.Close();
-                        string s = @_environment.WebRootPath;
-                       
-                        CesarOp.Cifrado(fileStream.Name, s, objFile.Palabra);
+                        CesarOp.Cifrado(fileStream.Name, s, objFile.word);
 
                         MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
                            "\\Upload\\" + Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".cesar"));
                         return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".cesar");
 
                     }
+                }
 
 
-                }
-                else
-                {
-                    return StatusCode(500);
-                }
+                return StatusCode(500);
+               
 
             }
             catch (Exception ex)
@@ -153,13 +93,39 @@ namespace Lab4.Controllers
 
         }
 
-        [HttpPost("decipher/Cesar")]
-        public IActionResult postDecipherCesar([FromForm]Información objFile)
+        [HttpPost("decipher")]
+        public IActionResult postDecipherZZ([FromForm]Información objFile)
         {
 
             try
             {
-                if (objFile.file.Length > 0)
+                if (objFile.cipher == "zigzag")
+                {
+                    if (objFile.file.Length > 0)
+                    {
+                        if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+                        {
+                            Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                        }
+                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\" + objFile.file.FileName))
+                        {
+                            objFile.file.CopyTo(fileStream);
+                            fileStream.Flush();
+                            fileStream.Close();
+                            string s = @_environment.WebRootPath;
+
+                            ZigZaOpg.Descifrado(objFile.file, fileStream.Name, s, objFile.key);
+
+                            MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
+                               "\\Upload\\" + Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".txt"));
+                            return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".txt");
+
+                        }
+
+
+                    }
+                }
+                else if (objFile.cipher == "cesar")
                 {
                     if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
                     {
@@ -172,7 +138,7 @@ namespace Lab4.Controllers
                         fileStream.Close();
                         string s = @_environment.WebRootPath;
 
-                        CesarOp.Descifrado(fileStream.Name, s, objFile.Palabra);
+                        CesarOp.Descifrado(fileStream.Name, s, objFile.word);
 
 
                         MemoryStream enviar = new MemoryStream(System.IO.File.ReadAllBytes(_environment.WebRootPath +
@@ -180,23 +146,18 @@ namespace Lab4.Controllers
                         return File(enviar, "text/plain", Path.GetFileNameWithoutExtension(objFile.file.FileName) + ".txt");
 
                     }
-
-
                 }
-                else
-                {
+
+             
                     return StatusCode(500);
-                }
+             
 
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { name = "Internal Server Error", message = ex.Message });
             }
-
-
-
-        }      
-
+        }
+     
     }
 }

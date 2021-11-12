@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "bz0AeqgMdj/sA5nfVETk7PA9VI305Q9AIXCWEuX8/LMsqvLIUEroXncefkpFOK945HxxGNylpYTt43Ogg7wzGQ==",
-  "success": true,
-  "projectFilePath": "e:\\Cathy\\Documents\\lab4 repo gti\\Cifrado\\Cifrado.csproj",
+  "dgSpecHash": "F720/O/5AGMhiED+GBl2eAOHruy4dUrqZpVLClfXPA6nPtprU0btfqaKWVm1rQx7VSUBCF9ogcF+tXJ55yl3Jg==",
+  "success": false,
+  "projectFilePath": "e:\\Cathy\\Documents\\lab 4 reps dddd\\Cifrado\\Cifrado.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.AspNetCore.Http.Features. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.AspNetCore.Http.Features",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

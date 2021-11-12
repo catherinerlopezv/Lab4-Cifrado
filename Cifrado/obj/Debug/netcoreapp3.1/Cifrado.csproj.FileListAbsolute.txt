@@ -12,3 +12,7 @@ C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrad
 C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.dll
 C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.pdb
 C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\obj\Debug\netcoreapp3.1\Cifrado.genruntimeconfig.cache
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
+C:\Users\Zer0\Desktop\Lab4-Cifrado-master\Cifrado\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll

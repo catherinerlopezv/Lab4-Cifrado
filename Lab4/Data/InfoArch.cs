@@ -10,9 +10,8 @@ namespace Lab4.Data
     {
 
         IFormFile ArchivoCargado { get; set; }
-        T TamañoCarriles { get; set; }
-        string NuevoNombre { get; set; }
-        string Palabra { get; set; }
-        int Tamaño { get; set; }
+        T key { get; set; }
+        string cipher { get; set; }
+        string word { get; set; }
     }
 }

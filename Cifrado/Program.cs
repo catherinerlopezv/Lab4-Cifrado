@@ -7,6 +7,7 @@ namespace Cifrado
     {
         static void Main(string[] args)
         {
+            /*
             Console.Write("Escribir texto: ");
             string texto = Console.ReadLine();
             Console.Write("Escribir llave: ");
@@ -100,7 +101,7 @@ namespace Cifrado
             }
 
 
-
+            */
 
 
 
