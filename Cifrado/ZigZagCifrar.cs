@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,134 +9,172 @@ namespace Cifrado
 {
     public class ZigZagCifrar
     {
-        public ZigZagCifrar(int niveles, string texto)
+        public  void Cifrar(IFormFile archivo, int niveles,string raiz)
         {
-            this.niveles = niveles;
-            Texto = texto;
-        }
-        public int niveles;
-        public string Texto;
-        public int TamañoOla()
-        {
-            int resultado = 0;
-            resultado = (niveles * 2) - 2;
-            return resultado;
-        }
-        private int NumeroOlas()
-        {
-            int resultado = 0;
-            resultado = TamañoTexto() / TamañoOla();
-            return resultado;
-        }
-        private int TamañoBloque()
-        {
-            int resultado = 0;
-            resultado = 2 * NumeroOlas();
-            return resultado;
-        }
-        private int TamañoTexto()
-        {
-            int resultado = 0;
-            char[] TamañoTexto = Texto.ToCharArray();
-            for (int i = 0; i < TamañoTexto.Length; i++)
+            string nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
+            using (var reader = new BinaryReader(archivo.OpenReadStream()))
             {
-                resultado++;
-            }
-            return resultado;
-        }
-        private List<char> ListaCaracteresTotales()
-        {
-            List<char> lista = new List<char>();
-            char[] caracteres = Texto.ToCharArray();
-
-            for (int i = 0; i < TamañoTexto(); i++)
-            {
-                lista.Add(caracteres[i]);
-            }
-
-            return lista;
-        }
-        public List<List<char>> ListasCifrado()
-        {
-            List<List<char>> ListasOlas = new List<List<char>>();
-            char[] TamañoText = Texto.ToCharArray();
-            char res = ' ';
-            List<char> Temporal = ListaCaracteresTotales();
-            for (int i = 0; i <= NumeroOlas(); i++)
-            {
-                List<char> ListaPrueba = new List<char>();
-
-                if (Temporal.Count() != 0)
+                using (var streamWriter = new FileStream(raiz+"/Upload/"+ nombre+".zigzag", FileMode.OpenOrCreate))
                 {
-                    for (int j = 0; j < TamañoOla(); j++)
+                    using (var writer = new BinaryWriter(streamWriter))
                     {
+                        var olas = (2 * niveles) - 2;
+                        var tamaño = (float)reader.BaseStream.Length / (float)olas;
+                        var olasCan = tamaño % 1 <= 0.5 ? Math.Round(tamaño) + 1 : Math.Round(tamaño);
+                        olasCan = Convert.ToInt32(olasCan);
 
-                        res = Temporal.ElementAt(0);
-                        Temporal.RemoveAt(0);
-                        ListaPrueba.Add(res);
-                        if (Temporal.Count() == 0)
+                        var posicion = 0;
+                        var nivelesC = 0;
+
+                        var texto = new List<byte>[niveles];
+
+                        for (int i = 0; i < niveles; i++)
                         {
-                            int tamaño = TamañoOla() - ListaPrueba.Count();
-                            for (int h = 0; h < tamaño; h++)
+                            texto[i] = new List<byte>();
+                        }
+
+                        var vff = 100000;
+                        var bvff = new byte[vff];
+
+                        while (reader.BaseStream.Position != reader.BaseStream.Length)
+                        {
+                            bvff = reader.ReadBytes(vff);
+                            foreach (var caracter in bvff)
                             {
-                                ListaPrueba.Add('|');
-
+                                if (posicion == 0 || posicion % olas == 0)
+                                {
+                                    texto[0].Add(caracter);
+                                    nivelesC = 0;
+                                }
+                                else if (posicion % olas == niveles - 1)
+                                {
+                                    texto[niveles - 1].Add(caracter);
+                                    nivelesC = niveles - 1;
+                                }
+                                else if (posicion % olas < niveles - 1)
+                                {
+                                    nivelesC++;
+                                    texto[nivelesC].Add(caracter);
+                                }
+                                else if (posicion % olas > niveles - 1)
+                                {
+                                    nivelesC--;
+                                    texto[nivelesC].Add(caracter);
+                                }
+                                posicion++;
                             }
-                            j = TamañoOla() + 1;
                         }
-                    }
-                    ListasOlas.Add(ListaPrueba);
-                }
-                else
-                {
-                    ListaPrueba.Add('1');
-                }
-            }
-            return ListasOlas;
-        }
-        public string Cifrado()
-        {
 
-            string cifrado = "";
-            List<List<char>> temporal = ListasCifrado();
-
-            int ultimo = 0;
-            ultimo = TamañoOla() - 3;
-            for (int i = 0; i <= ListasCifrado().ElementAt(0).Count() - 1; i++)
-            {
-
-                for (int j = 0; j <= NumeroOlas(); j++)
-                {
-
-                    if (j == 0 && i == 0)
-                    {
-                        for (int x = 0; x <= NumeroOlas(); x++)
+                        for (int i = 0; i < niveles; i++)
                         {
+                            var cantIteracion = i == 0 || i == niveles - 1 ? olasCan : olasCan * 2;
+                            var inicio = texto[i].Count();
+                            for (int j = inicio; j < cantIteracion; j++)
+                            {
+                                texto[i].Add((byte)0);
+                            }
+                            writer.Write(texto[i].ToArray());
+                        }
+                    }
+                }
+            }
+        }
 
-                            cifrado = cifrado + temporal.ElementAt(x).ElementAt(i).ToString();
-                            temporal.ElementAt(x).RemoveAt(i);
+        
+        public  void Decifrar(IFormFile archivo, int niveles, string raiz)
+        {
+            string nombre = Path.GetFileNameWithoutExtension(archivo.FileName);
+            using (var reader = new BinaryReader(archivo.OpenReadStream()))
+            {
+                using (var streamWriter = new FileStream(raiz + "/Upload/" + nombre + ".txt", FileMode.OpenOrCreate))
+                {
+                    using (var writer = new BinaryWriter(streamWriter))
+                    {
+                        var olas = (2 * niveles) - 2;
+                        var olasCant = Convert.ToInt32(reader.BaseStream.Length) / olas;
+                        var medios = (Convert.ToInt32(reader.BaseStream.Length) - (2 * olasCant)) / (niveles - 2);
 
+                        var pos = 0;
+                        var contNivel = 0;
+                        var contIntermedio = 0;
+
+                        var mensaje = new Queue<byte>[niveles];
+
+                        for (int i = 0; i < niveles; i++)
+                        {
+                            mensaje[i] = new Queue<byte>();
                         }
 
+                        var bufferLength = 100000;
+                        var byteBuffer = new byte[bufferLength];
+
+                        while (reader.BaseStream.Position != reader.BaseStream.Length)
+                        {
+                            byteBuffer = reader.ReadBytes(bufferLength);
+                            foreach (var caracter in byteBuffer)
+                            {
+                                if (contNivel == niveles - 1)
+                                {
+                                    mensaje[contNivel].Enqueue(caracter);
+                                }
+                                else
+                                {
+                                    if (pos < olasCant)
+                                    {
+                                        mensaje[0].Enqueue(caracter);
+                                    }
+                                    else if (pos == olasCant)
+                                    {
+                                        contNivel++;
+                                        mensaje[contNivel].Enqueue(caracter);
+                                        contIntermedio = 1;
+                                    }
+                                    else if (contIntermedio < medios)
+                                    {
+                                        mensaje[contNivel].Enqueue(caracter);
+                                        contIntermedio++;
+                                    }
+                                    else
+                                    {
+                                        contNivel++;
+                                        mensaje[contNivel].Enqueue(caracter);
+                                        contIntermedio = 1;
+                                    }
+                                    pos++;
+                                }
+                            }
+                        }
+
+                        contNivel = 0;
+                        var direccion = true;
+                        while (mensaje[1].Count() != 0 || (niveles == 2 && mensaje[1].Count() != 0))
+                        {
+                            if (contNivel == 0)
+                            {
+                                writer.Write(mensaje[contNivel].Dequeue());
+                                contNivel = 1;
+                                direccion = true;
+                            }
+                            else if (contNivel < niveles - 1 && direccion)
+                            {
+                                writer.Write(mensaje[contNivel].Dequeue());
+                                contNivel++;
+                            }
+                            else if (contNivel > 0 && !direccion)
+                            {
+                                writer.Write(mensaje[contNivel].Dequeue());
+                                contNivel--;
+                            }
+                            else if (contNivel == niveles - 1)
+                            {
+                                writer.Write(mensaje[contNivel].Dequeue());
+                                contNivel = niveles - 2;
+                                direccion = false;
+                            }
+                        }
                     }
-
-
-                    if ((temporal.ElementAt(j).Count() - 1) >= 0)
-                    {
-                        cifrado = cifrado + temporal.ElementAt(j).ElementAt(0).ToString();
-                        temporal.ElementAt(j).RemoveAt(0);
-                    }
-                    if ((temporal.ElementAt(j).Count() - 1) > 0)
-                    {
-                        cifrado = cifrado + temporal.ElementAt(j).ElementAt(temporal.ElementAt(j).Count() - 1).ToString();
-                        temporal.ElementAt(j).RemoveAt(temporal.ElementAt(j).Count() - 1);
-                    }
-
-
                 }
-
             }
-            return cifrado;
         }
 
     }

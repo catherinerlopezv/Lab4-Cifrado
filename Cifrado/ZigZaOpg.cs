@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,39 +9,21 @@ namespace Cifrado
 {
     public static class ZigZaOpg
     {
-        public static void Cifrado(string path, string root, int niveles)
+        public static void Cifrado(IFormFile file, string path,string raiz, int niveles)
         {
-            string texto = System.IO.File.ReadAllText(@path);
-            ZigZagCifrar cifrado = new ZigZagCifrar(niveles, texto);
-            string txtcifrado =cifrado.Cifrado();
+            ZigZagCifrar cifrado = new ZigZagCifrar();
+
+            cifrado.Cifrar(file,niveles,raiz);
 
 
-            root = root + @"\\Upload\\" + Path.GetFileNameWithoutExtension(path) + ".ZigZag";
-            using (StreamWriter outputFile = new StreamWriter(root))
-            {
-                foreach (char caracter in txtcifrado)
-                {
-                    outputFile.Write(caracter.ToString());
-                }
-            }
+          
         }
 
-        public static void Descifrado(string path, string root, int niveles)
+        public static void Descifrado(IFormFile file, string path, string raiz, int niveles)
         {
-            string texto = System.IO.File.ReadAllText(@path);
-            ZigZagDescifrar descifrado = new ZigZagDescifrar(niveles, texto);
-            string txtdescifrado = descifrado.Descifrado();
-            txtdescifrado.Replace("ascii 197", "");
+            ZigZagCifrar cifrado = new ZigZagCifrar();
 
-            root = root +@"\\Upload\\" + Path.GetFileNameWithoutExtension(path) + ".txt";
-            using (StreamWriter outputFile = new StreamWriter(root))
-            {
-                foreach (char caracter in txtdescifrado)
-                {
-                    outputFile.Write(caracter.ToString());
-                    
-                }
-            }
+            cifrado.Decifrar(file, niveles, raiz);
         }
     }
 }

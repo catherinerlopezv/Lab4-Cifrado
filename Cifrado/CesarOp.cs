@@ -14,8 +14,7 @@ namespace Cifrado
             Cesar cifrado = new Cesar(palabra, texto);
             string txtcifrado = cifrado.Cifrado();
 
-            List<char> bytecompress = new List<char>();
-
+            
             raiz = raiz + @"\\Upload\\" + Path.GetFileNameWithoutExtension(path) + ".cesar";
             using (StreamWriter outputFile = new StreamWriter(raiz))
             {
